@@ -1,7 +1,9 @@
-import { defineCollection, z } from "astro:content"
+import { defineCollection } from "astro:content"
+import { glob } from "astro/loaders"
+import { z } from "astro/zod"
 
 const progress = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/progress" }),
   schema: z.object({
     title: z.string(),
     hash: z.string(),
@@ -10,7 +12,7 @@ const progress = defineCollection({
 })
 
 const blog = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/blog" }),
   schema: z.object({
     title: z.string(),
     summary: z.string(),
@@ -21,7 +23,7 @@ const blog = defineCollection({
 })
 
 const posts = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/posts" }),
   schema: z.object({
     title: z.string(),
     summary: z.string(),
@@ -35,7 +37,7 @@ const posts = defineCollection({
 })
 
 const legal = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/legal" }),
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),

@@ -1,10 +1,10 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import solidJs from "@astrojs/solid-js";
-import markdownIntegration from "@astropub/md";
-import vercel from "@astrojs/vercel/static";
+import vercel from "@astrojs/vercel";
+import { unified } from "@astrojs/markdown-remark";
 import { targetBlank } from './src/plugins/targetBlank';
 
 // https://astro.build/config
@@ -14,14 +14,15 @@ export default defineConfig({
 		mdx(),
 		sitemap(),
 		solidJs(),
-		markdownIntegration(),
-		tailwind({
-			applyBaseStyles: false,
-		}),
 	],
+	vite: {
+		plugins: [tailwindcss()],
+	},
 	markdown: {
-		remarkPlugins: [],
-		rehypePlugins: [[targetBlank, { domain: 'byran.ee' }]],
+		processor: unified({
+			remarkPlugins: [],
+			rehypePlugins: [[targetBlank, { domain: 'byran.ee' }]],
+		}),
 		// syntaxHighlight: 'shiki'
 		// syntaxHighlight: 'prism'
 	},
